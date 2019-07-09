@@ -26,8 +26,8 @@ BeanFactory는 lazy-loading을 하여 실제 요청 받는 시점에서 인스�
 즉 application 시작부터 해당패키지까지 컴포넌트를 읽어들임.
 ex) @Component, @Controller, @Service, @Repository
 
-@Autowired
-● required: 기본값은 true (따라서 못 찾으면 애플리케이션 구동 실패)
+- @Autowired
+- required: 기본값은 true (따라서 못 찾으면 애플리케이션 구동 실패)
 사용할 수 있는 위치
 생성자 (스프링 4.3 부터는 생략 가능), 세터, 필드
 
