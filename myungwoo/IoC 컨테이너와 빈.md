@@ -47,7 +47,22 @@ but 프로토타입이 싱글톤 참조시 업데이트가 안됨.
 : scoped-proxy, obeject-provider
 
 - Environment Capable 중 하나인 프로파일기능
-: getEnvironment()
+: getEnvironment() 
 
 - 프로파일
 : bean들의 묶음, 환경설정
+
+environment.getActiveProfile() : 디폴트로 아무것도 없음
+environment.getDefaultProfile(): default 나옴 (아무것도 설정하지 않은상태)
+
+- 프로파일 선언하는 방법(클래스)
+@Configuration
+@Profile("프로파일이름")
+
+- 프로파일 선언하는 방법(메소드
+@Bean
+@Profile("프로파일이름")
+
+- 프로파일 설정방법:
+: IDE에서 active profile에서 사용
+-Dspring.profile.actvie="test,A,B"
