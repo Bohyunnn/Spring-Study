@@ -83,6 +83,8 @@ environment.getProperty("app.name")
 ServletContext 매개변수
 JNDI(java/comp/env)
 
-JVM 시스템 프로퍼티
+@Value("${app.name}"}
+
+JVM 시스템 프로퍼티 (-Dkey="value")
 JVM 시스템 환경변수 (운영체체 환경변수)
 
