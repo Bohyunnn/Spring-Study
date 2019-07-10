@@ -37,3 +37,13 @@ ex) @Component, @Controller, @Service, @Repository
 - 같은 타입의 빈이 여러개 일때 여러개 모두 주입받는법
 : @Qualifer 빈 이름으로 주입받는다.
 
+- 빈의 scope
+: 싱글톤, 프로토타입
+
+- 프로토타입이 싱글톤을 참조하면 문제없음
+but 프로토타입이 싱글톤 참조시 업데이트가 안됨. 
+
+- proxy를 사용해서 싱글톤 빈이 프로토 타입을 업데이트 하게 한다
+: scoped-proxy, obeject-provider
+
+- 
