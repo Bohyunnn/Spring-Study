@@ -46,4 +46,8 @@ but 프로토타입이 싱글톤 참조시 업데이트가 안됨.
 - proxy를 사용해서 싱글톤 빈이 프로토 타입을 업데이트 하게 한다
 : scoped-proxy, obeject-provider
 
-- 
+- Environment Capable 중 하나인 프로파일기능
+: getEnvironment()
+
+- 프로파일
+: bean들의 묶음, 환경설정
