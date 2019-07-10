@@ -66,3 +66,10 @@ environment.getDefaultProfile(): default 나옴 (아무것도 설정하지 않�
 - 프로파일 설정방법:
 : IDE에서 active profile에서 사용
 -Dspring.profile.actvie="test,A,B"
+
+-테스트 프로파일
+@ActvieProfiles
+
+- 프로파일 표현식
+:!(not), &(and), |(or)
+
