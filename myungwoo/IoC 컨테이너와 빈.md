@@ -73,3 +73,16 @@ environment.getDefaultProfile(): default 나옴 (아무것도 설정하지 않�
 - 프로파일 표현식
 :!(not), &(and), |(or)
 
+- 프로퍼티
+: IDE에서 VM option 으로 줄수도 있음 
+@Properties("classpath:app.properties")
+environment.getProperty("app.name")
+
+- 프로퍼티 우선순위
+:ServletConfig 매개변수
+ServletContext 매개변수
+JNDI(java/comp/env)
+
+JVM 시스템 프로퍼티
+JVM 시스템 환경변수 (운영체체 환경변수)
+
