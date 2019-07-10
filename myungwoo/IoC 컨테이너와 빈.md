@@ -88,3 +88,16 @@ JNDI(java/comp/env)
 JVM 시스템 프로퍼티 (-Dkey="value")
 JVM 시스템 환경변수 (운영체체 환경변수)
 
+
+- MessageSource
+:메세지 다국화 (i18n)
+ApplicationContext  안에 messageSource 인터페이스
+messageSource.getMessage()
+스프링부트일경우 (messages.properties)
+messages.ko_KR.propperties
+
+messageSource.setBaseName
+messageSource.setDefalutEncording("UTF-8)
+
+
+
