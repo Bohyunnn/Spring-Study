@@ -107,4 +107,9 @@ ApplicationContext extends ApplicationEventPublisher
 : publishEvent(ApplicationEvent event)
 
 - 이벤트 핸들러를 빈에 등록해줘야함
+:@EventListener 라는 어노테이션을 추가해줘야한다
+
+- pojo 기반의 프로그래밍
+: 스프링 소스가 노출되지 않음
+
 
