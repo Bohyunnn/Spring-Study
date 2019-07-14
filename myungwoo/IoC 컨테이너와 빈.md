@@ -101,3 +101,10 @@ messageSource.setDefalutEncording("UTF-8)
 
 
 
+- ApplicationEventPublisher
+: 이벤트 프로그래밍에 필요한 인터페이스 제공
+ApplicationContext extends ApplicationEventPublisher
+: publishEvent(ApplicationEvent event)
+
+- 이벤트 핸들러를 빈에 등록해줘야함
+
