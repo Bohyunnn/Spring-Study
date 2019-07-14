@@ -129,3 +129,13 @@ ex) @Order(Orderd.HIGHEST_PRECEDNCE)
 - RequestHandledEvent: Http요청을 처리했을 때 발생
 
 
+- ResourceLoader
+리소스를 읽어오는 기능을 제공하는 인터페이스
+ApplicationContext extends ResourceLoader
+
+@Autowired
+ResourceLoader resourceLoader;
+
+ResourceLoader.getResource(location:"classpath:resouces/test.txt");
+ResourceLoader.getDescription();
+
