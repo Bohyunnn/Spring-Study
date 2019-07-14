@@ -112,4 +112,20 @@ ApplicationContext extends ApplicationEventPublisher
 - pojo 기반의 프로그래밍
 : 스프링 소스가 노출되지 않음
 
+- 이벤트 핸들러를 여러개 사용할경우 기본적으로 순차적으로 실행함
+:@Order 라는 어노테이션을 이용해서 순서를 정할수 있음
+ex) @Order(Orderd.HIGHEST_PRECEDNCE)
+
+- 비동기적으로 (순서없이) 사용하고 싶다면 @Async라는 어노테이션 사용
+: 스프링부트 메인 클래스에 @EnableAsync라는 어노테이션을 해줘야 @Async라는 어노테이션이 동작함
+
+
+
+* 스프링이 제공하는 기본 이벤트
+- ContextRefreshdEvent: ApplicationContext를 초기화 했거나 리프래시 할때 발생
+- ContextStartedEvent: ApplicationContext를 start() 하여 빈들이 시작신호를 받은 시점에 발생
+- ContextStoppdEvent: ApplicationContext를 stop() 하여 빈들이 정지신호를 받은 시점에 발생
+- ContextClosedEvent: ApplicationContext를 close()하여 싱글톤 빈 소멸되는 시점에 발생.
+- RequestHandledEvent: Http요청을 처리했을 때 발생
+
 
