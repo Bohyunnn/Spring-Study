@@ -1,2 +1,13 @@
 Resource  &  Validation
 
+- ApplicationContext
+: BeanFactory 뿐 아니라 리소스로더, 이벤트 퍼블리셔, 메세지 소스 기능도 함
+
+Resource 추상화
+: java.net.URL 을 추상화한 것, 스프링 내부에서 많이 사용하는 인터페이스
+
+추상화 이유
+: 클래스패스 기준으로 리소스 읽어오는 기능부재
+, ServletContext를 기준으로 상대 경로로 읽어오는 기능 부재
+, 새로운 핸들러를 등록하여 특별한 URL 접미사를 만들어 사용할 수는 있지만 구현이 복잡하고 편의성 메소드가 부족
+
