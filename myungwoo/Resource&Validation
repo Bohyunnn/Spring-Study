@@ -17,6 +17,7 @@ Resource 추상화
 
 PropertyEditor
 : 스프링 3.0 이전까지 데이터 바인더가 사용하던 인터페이스
+,쓰레드 세이프 하지 않음
 , 여러가지 객체가 가지고 있는 타입을 도메인타입으로도 변환해서 넣어줌.
 
 Object <-> String 변환만 가능해서 사용범위 제한적임.
@@ -28,6 +29,8 @@ public EventPropertyEditor extends PropertyEditorSupport{
 
 Conveter 
 : S타입을 T타입으로 변환할수 있는 변환기
+, 쓰레드 세이프함
+, ConveterRegistry  등록해야함
 public EventToStringConverter implements Converter<Stirng, Event){
   @override
   public Event convert(String source){
