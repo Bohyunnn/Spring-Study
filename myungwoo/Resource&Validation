@@ -11,3 +11,35 @@ Resource 추상화
 , ServletContext를 기준으로 상대 경로로 읽어오는 기능 부재
 , 새로운 핸들러를 등록하여 특별한 URL 접미사를 만들어 사용할 수는 있지만 구현이 복잡하고 편의성 메소드가 부족
 
+
+@Validator
+
+
+PropertyEditor
+: 스프링 3.0 이전까지 데이터 바인더가 사용하던 인터페이스
+, 여러가지 객체가 가지고 있는 타입을 도메인타입으로도 변환해서 넣어줌.
+
+Object <-> String 변환만 가능해서 사용범위 제한적임.
+
+public EventPropertyEditor extends PropertyEditorSupport{
+
+}
+
+
+Conveter 
+: S타입을 T타입으로 변환할수 있는 변환기
+public EventToStringConverter implements Converter<Stirng, Event){
+  @override
+  public Event convert(String source){
+    Event event = new Event();
+    event.setId(Integer.parseInt(source));
+    retrun event;
+  }
+}
+
+
+Formatter
+: Property Editor 대체제
+, Object 와 String과 변환을 담당함, 문자열 다국화 기능도 제공(옵션)
+, FommaterRegistry  등록해야함
+
