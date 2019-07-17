@@ -1,0 +1,140 @@
+Resource 추상화
+- java.net.URL이란 클래스를 springframework.core.io.Resource 클래스로 감싸서 실제 로우 레벨에있는 리소스에 접근하는 기능을 추상화 시킴
+
+Resource 주요 메소드 
+- exitst() : 리소스가 존재하는지(반드시 리소스가 존재한다고 가정하지 않기 때문에)
+- isReadable() : 읽을 수 있는지
+- isOpen() : 열려있는지
+- isFile() : 파일인지
+- getURL(), getURI(), getFile() : 가지고 올 때(리소스를 모든 파일로 가지고 올 수는 없음)
+- getDescription() : 전체 경로 포함한 파일 이름 또는 실제 URL
+
+Resource 구현체
+- UrlResource : http, https, ftp, file, jar를 지원
+- ClassPathResource : java.net.URL의 ‘classpath:’ 접두어를 붙여서 사용
+- ServletContextResource : 가장 많이 사용(읽어), 웹 애플리케이션 루트부터 리소스를 찾음
+
+Resource 읽어오기
+- resourceLoader.getResource(location: “리소스명”)
+- Resource 타입은 location과 ApplicationContext 타입에 따라 결정
+- ApplicationContext 타입에 상관없이 리소스 타입을 강제하려면 java.net.URL의 접두어(classpath:, file:) 중 하나를 사용할 수 있음
+: resourceLoader.getResource(location: “classpath:리소스명”)
+: 접두어로 인해 명시적으로 알 수 있어 이 방법을 추천
+
+Validation 추상화
+- 애플리케이션에서 사용하는 객체들을 검증할 때 사용하는 인터페이스
+- 모든 계층에서 사용 가능
+
+Validation 인터페이스
+- supports(Class clazz) : 검증해야되는 인스턴스의 클래스가 검증할 수 있는 클래스인지 확인
+- void validation(Object obj, Errors e) :실제 검증 로직을 이 안에서 구현
+- 스프링 부트에서 사용할 때
+ : 스프링에서 제공하는 LocalValidationFectoryBean을 자동으로 빈으로 등록해줌
+  (LocalValidationFectoryBean이란 Bean Validation을 지원해주는 Validator임)
+ 
+데이터 바인딩
+- 기술적인 관점: 프로퍼티의 값을 타겟 객체에 설정하는 기능
+- 사용자 관점
+: 사용자 입력 값을 애플리케이션 도메인 모델에 동적으로 할당해주는 기능
+: 할당할 때 바인딩이 필요한 이유는 사용자가 입력한 값은 주로 문자열인데,
+그 문자열을 객체가 가지고 있는 int, long, Date나 Event와 같은 도메인 타입으로도
+변환해주는 기능
+
+DataBinder
+- 스프링이 제공하는 인터페이스(오래됨)
+- 웹 MVC에서 주로 사용
+- PropertyEditor를 사용하는 DataBinder는 웹 MVC에서만 특화된게 아닌, 여러 곳에서 쓰이는
+스프링의 핵심 기술중에 하나, 데이터 바인딩에 관련된 기능을 여러 인터페이스로 적절히
+추상화 시켜져 있음
+
+PropertyEditor
+- 공유하고있는 Value(getValue(), setValue())는 PropertyEditor가 가지고 있는 값
+ : 값이 서로 다른 스레드에게 공유가 되기 때문에 상태정보를 저장하고 있음
+ : 스레드 세이프하지 않기 때문에 PropertyEditor의 구현체들은 여러 스레드에 공유해서 쓰면
+절대 안됨 (ex, 1번이 4번정보를 변경하거나 2번이 1번정보를 변경하는 일이 생김)
+-> 일반적인 Bean이 아닌 한 스레드내에서만 유효한 scope의 Bean을 사용하거나,
+   Bean을 아예 등록을 하지말아야함
+- Object와 String간의 변환만 할 수 있음(무조건 String으로 받음, 사용범위가 제한적)
+
+Converter
+- PropertyEditor의 단점 때문에 생겨남
+: 상태정보를 저장하고 있지 않음(일반적인 Bean을 등록 해도 됨)
+: String이 아닌 서로 다른 타입간에도 데이터 바인딩을 할 수 있음(일반적인 바인딩이 가능)
+- ConverterRegisty에서 등록해서 사용
+
+Formatter
+- 웹에 특화 되어있는 인터페이스
+- 스레드 세이프하여 Bean으로 등록 가능하기때문에 다른 Bean을 주입 받을 수 도 있음
+- 변환 담당(문자열을 Locale에 따라 다국화하는 기능도 제공) 
+- FormatterRegisty(ConverterRegisty를 상속받고 있음)에서 등록해서 사용
+ 
+ConversionService
+- 타입을 변환하는 작업을 DataBinder대신에 Converter와 Formatter로 작업할 수 있게 해줌
+
+DefailtFormattingConversionService
+- ConversionService타입의 빈에서 해당 클래스가 주로 사용
+- ConversionService와 FormatterRegisty(ConverterRegisty를 상속받고 있음) 역할을 다 함
+
+SpEL(Spring Expression Language)
+- 객체 그래프를 조회 및 조작하는 기능을 제공
+- EL과 비슷하지만 메소드 호출을 지원하며 문자열 템플릿 기능도 제공
+- 문법
+ : #{표현식} (ex, @Value(“#{1+1}”), @Value(“#{‘Hello’}”))
+-> 표현식이 문자일 경우 작은 따옴표 사용
+ : ${프로퍼티} -> 프로퍼티 안의 지정한 값을 가지고옴
+ : 표현식 안에 프로퍼티 사용이 가능하지만, 프로퍼티 안에는 표현식 사용이 불가능함
+(ex, @Value(“#{${my.value} eq 100}”))
+
+AOP(Aspect-oriendted Programming)
+- 자바에 만들어져 있는 구현체(AspectJ)와 연동해서 사용할 수 있는 기능 제공
+- 스프링 자체에서 구현한 스프링 AOP 기능을 활용할 수 있도록 해줌
+- 흩어진 Aspect를 모듈화 할 수 있는 프로그래밍 기법(OOP와 서로 보완 관계)
+- 흩어진 관심사(Cresscutting Concems)를 AOP는 Aspect로 문제 해결함
+ : Aspect로 흩어진 Concems들을 Concems별로 모아서 해야하는 일을 독립적으로 정의하여
+어디에 적용해야 되는지 정보를 입력해줌
+
+Aspect
+- 하나의 모듈
+- Advice: 해야할 일
+- Pointcut: 어디에 적용해야 되는지의 정보
+- Tatget: 적용이 되는 대상
+- Join Point
+: 합류 지점, 흔한 걸로 메소드 실행 시점(메소드를 실행할 때 Advice가 끼어드는 지점)이 있음
+
+JAVA AOP 구현체
+- AspectJ: 다양한 조인 포인트와 기능을 제공
+- 스프링 AOP: 제한된 기능으로 제공
+ 
+Aspect 적용 방법
+- 컴파일: 자바 파일을 클래스 파일로 컴파일 하는 시점에
+- 로드 타임: 클래스 파일이 로딩하는 시점에
+- 런타임: 빈을 만드는 시점에
+
+Concems
+- 여러 클래스나 메소드의 걸쳐서 나타나는 비슷한 코드들
+
+스프링 AOP
+- 프록시 기반의 AOP
+- 스프링 빈에만 ADOP를 적용할 수 있음
+- 일반 프록시 패턴의 문제점들을 해결
+: 동적 프록시를 이용하여 애플리케이션이 동작하는 중(런타임)에 동적으로 어떤 객체를 감싸는
+프록시 객체를 만드는 방법을 스프링 IoC에서 제공하는 방법과 혼합 사용하여 해결 
+
+프록시 패턴
+- 프록시 객체가 원래 해야할 일을 가지고 있는 객체를 감싸서 실제 클라이언트의 요청을 처리
+- 문제점: 중복 코드, 매번 프록시 클래스를 만드는 비용과 수고
+
+@AOP
+- 애노테이션 기반의 스프링 AOP
+- 사용하기 위해서는 의존성을 추가해야 함
+- 애스팩트 정의
+ : @Aspect 정의와 빈 등록
+- 포인트컷 정의
+ : @Pointcut(표현식)
+- 어드바이스 정의
+ : @Before, @AfterReturning, @AfterThrowing, @Around
+
+Null-safety
+- Null관련 애노테이션
+- 컴파일 시점에 최대한 NullPointerException을 방지하는 것
+- @NonNull, @Nullable, @NonNullApi(패키지 레벨 설정), @NonNullFields(패키지 레벨 설정)
