@@ -1,0 +1,17 @@
+Null-safety
+: 스프링 5에 추가된 null관련 에노테이션
+
+
+@NonNull
+public String createEvent(@NonNull String name){
+ retrun "hello"+name
+}
+
+
+@Nullable
+
+
+@NonNullApi
+:패키지 레벨 설정
+package 위에 씀, 패키지 이하에 모두 논널설정
+@NonNullFileds
