@@ -31,8 +31,11 @@ ex2) Resource resource = resourceLoader.getResouce("test.txt");
 -> ServletContextResource(WebApplicationContext) 참조
 ```
 
+-------------------------------------
+
 
 **Validate**
+
 : Application에서 사용하는 객체 검증용 인터페이스
 
 1. **PropertyEditor**
@@ -113,7 +116,7 @@ public class Demo {
 
 => 스프링 3.0 이전까지 DataBinder시 사용했던 인터페이스이다. 스프링 3.0 이후부터는 PropertyEditor를 대신할 수 있는 새로운 타입 변환 API인 Converter와 Formatter가 도입됐다.
 
-----------
+
 
 2. **Converter와 Fommater**
 
@@ -202,7 +205,7 @@ public class DemoConverter {
 1. Converter를 @Component를 이용해 Bean으로 등록할 수 있다.
 
 
-
+-------------------------------------
 
 
 **SPEL(Expression Language)**
@@ -264,6 +267,7 @@ public  class AppRunner implements ApplicationRunner {
 - Query 애노테이션
 - Thymleaf
 
+-------------------------------------
 
 **Spring AOP(Aspect-oriendted Programming)**
 
